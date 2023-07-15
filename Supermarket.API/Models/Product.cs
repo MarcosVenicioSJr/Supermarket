@@ -20,5 +20,8 @@ namespace Supermarket.API.Models
         [Required]
         [Range(1, (double) int.MaxValue, ErrorMessage = "O produto deve conter pelo menos 1 quantidade.")]
         public int Quantity { get; set; }
+
+        
+        public string BarCode { get; set; }
     }
 }
