@@ -27,16 +27,23 @@ namespace Supermarket.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             try
             {
                 Product product = ProductMapper.MapperDtoProduct(model);
-                Task<Product> newProduct = CreateProduct.CreateNewProduct(context, product);
+                Product newProduct = await CreateProduct.CreateNewProduct(context, product);
                 return Ok(newProduct);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpDelete]
+        [Route("barCode:string")]
+        public async void Delete([FromServices] DataContext context, string barCode)
+        {
 
         }
     }
