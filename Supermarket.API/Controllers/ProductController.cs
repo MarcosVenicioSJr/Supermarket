@@ -26,19 +26,18 @@ namespace Supermarket.API.Controllers
         public async Task<ActionResult<Product>> Post([FromServices] DataContext context, [FromBody] Product model)
         {
             if (!ModelState.IsValid)
-                await Console.Out.WriteLineAsync("bllz");
-            //    return BadRequest(ModelState);
+                return BadRequest(ModelState);
             try
             {
-                ProductDTO? product = ProductMapper.MapperDtoProduct(model);
-                CreateProduct.CreateNewProduct(context, product);
-                return Ok(model);
+                Product product = ProductMapper.MapperDtoProduct(model);
+                Task<Product> newProduct = CreateProduct.CreateNewProduct(context, product);
+                return Ok(newProduct);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
     }
 }
