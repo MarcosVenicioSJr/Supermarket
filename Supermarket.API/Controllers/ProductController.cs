@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Data;
 using Supermarket.API.Mapper;
 using Supermarket.API.Models;
+using Supermarket.API.Services.ProductService;
 
 namespace Supermarket.API.Controllers
 {
@@ -25,10 +26,19 @@ namespace Supermarket.API.Controllers
         public async Task<ActionResult<Product>> Post([FromServices] DataContext context, [FromBody] Product model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            ProductDTO? product = ProductMapper.MapperDtoProduct(model);
-
+                await Console.Out.WriteLineAsync("bllz");
+            //    return BadRequest(ModelState);
+            try
+            {
+                ProductDTO? product = ProductMapper.MapperDtoProduct(model);
+                CreateProduct.CreateNewProduct(context, product);
+                return Ok(model);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
     }
 }
