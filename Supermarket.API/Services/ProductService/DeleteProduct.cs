@@ -7,13 +7,27 @@ namespace Supermarket.API.Services.ProductService
 {
     public static class DeleteProduct
     {
-        public static bool Delete([FromServices] DataContext context, string barCode)
+        public static async Task<Product> Delete([FromServices] DataContext context, string barCode)
         {
             ProductDao productDao = new ProductDao();
 
-            var product = productDao.GetProductByBarCode(context, barCode);
+            Task<Product> task = productDao.GetProductByBarCode(context, barCode);
+            Product product = task.Result;
 
-            return true;
+            if (product == null)
+                throw new Exception("Produto não encontrado.");
+
+            try
+            {
+                context.Products.Remove(product);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+            return product;
         }
     }
 }

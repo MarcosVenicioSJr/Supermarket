@@ -41,10 +41,11 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpDelete]
-        [Route("barCode:string")]
-        public async void Delete([FromServices] DataContext context, string barCode)
+        public async Task<ActionResult<Product>> Delete([FromServices] DataContext context, [FromBody] string barCode)
         {
-            Product deleteProduct = DeleteProduct.DeleteProduct(context, barCode);
+            Product deleteProduct = await DeleteProduct.Delete(context, barCode);
+
+            return Ok(new { message = $"Produto {deleteProduct.Name} foi excluído com sucesso!" });
         }
     }
 }
