@@ -16,7 +16,7 @@ namespace Supermarket.API.Services.ProductService
             if (!validateBarCode)
                 throw new Exception("Barcode inválido, tente novamente com outro barcode.");
 
-            bool barCodeExists = await productDao.GetByBarCode(context, product.BarCode);
+            bool barCodeExists = await productDao.ExistsProduct(context, product.BarCode);
             if (barCodeExists)
                 throw new Exception("O Barcode já está cadastrado, tente com outro barcode");
 

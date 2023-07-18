@@ -8,11 +8,17 @@ namespace Supermarket.API.DAO
 {
     public class ProductDao
     {
-        public async Task<bool> GetByBarCode([FromServices] DataContext context, string barCode)
+        public async Task<bool> ExistsProduct([FromServices] DataContext context, string barCode)
         {
             Product? product = await context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
 
             return product != null;
+        }
+
+        public async Task<Product> GetProductByBarCode([FromServices] DataContext context, string barCode)
+        {
+            Product product = await context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
+            return product;
         }
 
         public async void Save([FromServices] DataContext context, Product product)

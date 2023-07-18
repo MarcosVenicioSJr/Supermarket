@@ -44,7 +44,7 @@ namespace Supermarket.API.Controllers
         [Route("barCode:string")]
         public async void Delete([FromServices] DataContext context, string barCode)
         {
-
+            Product deleteProduct = DeleteProduct.DeleteProduct(context, barCode);
         }
     }
 }
