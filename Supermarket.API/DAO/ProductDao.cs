@@ -22,9 +22,8 @@ namespace Supermarket.API.DAO
         }
 
         public async void Save([FromServices] DataContext context, Product product)
-        {
-            var productEntity = ProductMapper.MapperDtoProduct(product);
-            context.Products.Add(productEntity);
+        {       
+            context.Products.Add(product);
             await context.SaveChangesAsync();
         }
     }

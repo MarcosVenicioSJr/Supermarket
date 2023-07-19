@@ -32,7 +32,7 @@ namespace Supermarket.API.Controllers
             {
                 Product product = ProductMapper.MapperDtoProduct(model);
                 Product newProduct = await CreateProduct.CreateNewProduct(context, product);
-                return Ok(newProduct);
+                return Ok(new {message = "Produto criado com sucesso", Produto = newProduct});
             }
             catch (Exception ex)
             {
