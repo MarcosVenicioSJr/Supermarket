@@ -21,7 +21,7 @@ namespace Supermarket.API.DAO
             return product;
         }
 
-        public async void Save([FromServices] DataContext context, Product product)
+        public async Task Save([FromServices] DataContext context, Product product)
         {       
             context.Products.Add(product);
             await context.SaveChangesAsync();

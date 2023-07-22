@@ -22,7 +22,7 @@ namespace Supermarket.API.Services.ProductService
 
             try
             {
-                 productDao.Save(context, product);
+                 await productDao.Save(context, product);
             }
             catch (Exception ex)
             {

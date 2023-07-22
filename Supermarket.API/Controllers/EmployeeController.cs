@@ -31,15 +31,15 @@ namespace Supermarket.API.Controllers
             return Ok(employees);
         }
 
-        [HttpPost]
-        [Route("")]
-        public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] Employee model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        //[HttpPost]
+        //[Route("")]
+        //public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] Employee model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
 
-            Employee employee = EmployeeMapper.EmployeeDTO(model);
-            CreateEmployee.CreateNewEmployee(context, employee);
-        }
+        //    Employee employee = EmployeeMapper.EmployeeDTO(model);
+        //    CreateEmployee.CreateNewEmployee(context, employee);
+        //}
     }
 }
