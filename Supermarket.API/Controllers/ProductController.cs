@@ -33,7 +33,7 @@ namespace Supermarket.API.Controllers
                 Product product = ProductMapper.MapperDtoProduct(model);
                 Product newProduct = await CreateProduct.CreateNewProduct(context, product);
 
-                var response = new ProductResponse()
+                ProductResponse response = new ProductResponse()
                 {
                     Message = "Produto criado com sucesso",
                     Product = newProduct
