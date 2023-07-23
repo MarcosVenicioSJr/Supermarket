@@ -11,18 +11,18 @@ namespace Supermarket.API.Services.ProductService
     {
         public static async Task<Product> CreateNewProduct([FromServices] DataContext context, Product product)
         {
-            ProductDao productDao = new ProductDao();
+            ProductDao productDao = new ProductDao(context);
             bool validateBarCode = BarCodeValidator.ValidateBarCode(product.BarCode);
             if (!validateBarCode)
                 throw new Exception("Barcode inválido, tente novamente com outro barcode.");
 
-            bool barCodeExists = await productDao.ExistsProduct(context, product.BarCode);
+            bool barCodeExists = await productDao.ExistsProduct(product.BarCode);
             if (barCodeExists)
                 throw new Exception("O Barcode já está cadastrado, tente com outro barcode");
 
             try
             {
-                 await productDao.Save(context, product);
+                 await productDao.Save(product);
             }
             catch (Exception ex)
             {

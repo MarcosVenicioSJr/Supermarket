@@ -8,23 +8,34 @@ namespace Supermarket.API.DAO
 {
     public class ProductDao
     {
-        public async Task<bool> ExistsProduct([FromServices] DataContext context, string barCode)
+        private readonly DataContext _context;
+        public ProductDao([FromServices] DataContext context) 
         {
-            Product? product = await context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
+            this._context = context;
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            List<Product> produto = await _context.Products.AsNoTracking().ToListAsync();
+            return produto;
+        }
+        public async Task<bool> ExistsProduct(string barCode)
+        {
+            Product? product = await _context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
 
             return product != null;
         }
 
-        public async Task<Product> GetProductByBarCode([FromServices] DataContext context, string barCode)
+        public async Task<Product> GetProductByBarCode(string barCode)
         {
-            Product product = await context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
+            Product product = await _context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
             return product;
         }
 
-        public async Task Save([FromServices] DataContext context, Product product)
+        public async Task Save(Product product)
         {       
-            context.Products.Add(product);
-            await context.SaveChangesAsync();
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
         }
     }
 }

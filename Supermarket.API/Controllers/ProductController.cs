@@ -12,6 +12,15 @@ namespace Supermarket.API.Controllers
     public class ProductController : ControllerBase
     {
         [HttpGet]
+        [Route("")]
+        public async Task<ActionResult<List<Product>>> GetAll([FromServices] DataContext context)
+        {
+            List<Product> product = GetAllProducts.GetAll(context);
+
+            return Ok(product);
+        }
+
+        [HttpGet]
         [Route("{id:int}")]
         public async Task<ActionResult<Product>> GetById([FromServices] DataContext context, int id)
         {
@@ -48,7 +57,8 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult<Product>> Delete([FromServices] DataContext context, [FromBody] string barCode)
+        [Route("{barCode}")]
+        public async Task<ActionResult<Product>> Delete([FromServices] DataContext context, string barCode)
         {
             Product deleteProduct = await DeleteProduct.Delete(context, barCode);
 

@@ -9,9 +9,9 @@ namespace Supermarket.API.Services.ProductService
     {
         public static async Task<Product> Delete([FromServices] DataContext context, string barCode)
         {
-            ProductDao productDao = new ProductDao();
+            ProductDao productDao = new ProductDao(context);
 
-            Task<Product> task = productDao.GetProductByBarCode(context, barCode);
+            Task<Product> task = productDao.GetProductByBarCode(barCode);
             Product product = task.Result;
 
             if (product == null)
