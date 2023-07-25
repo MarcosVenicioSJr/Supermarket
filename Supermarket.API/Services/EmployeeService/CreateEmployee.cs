@@ -13,15 +13,15 @@ namespace Supermarket.API.Service
         {
             EmployeeDao employeeDao = new EmployeeDao(context);
 
-            if (ValidatorEmployee.NameValidator(model.Name))
+            if (!ValidatorEmployee.NameValidator(model.Name))
                 throw new Exception("O nome não pode conter letras ou caracteres especiais");
 
-            if (ValidatorEmployee.TaxNumberValidator(model.TaxNumber))
-                throw new Exception("O nome não pode conter letras ou caracteres especiais");
+            if (!ValidatorEmployee.TaxNumberValidator(model.TaxNumber))
+                throw new Exception("TaxNumber inválido, tente novamente.");
 
             Task<Employee> employeeExists = employeeDao.GetByTaxNumber(model.TaxNumber);
-            if (employeeExists != null)
-                throw new Exception("O nome não pode conter letras ou caracteres especiais");
+            if (employeeExists.Result != null)
+                throw new Exception("Funcionário já cadastrado.");
 
             try
             {

@@ -6,7 +6,7 @@ namespace Supermarket.API.Services.Employee.Validators
     {
         public static bool NameValidator(string name)
         {
-            string condition = @"^[a-zA-Z\s]+$";
+            string condition = @"^[a-zA-Z]+(\s[a-zA-Z]+)*$";
             return Regex.IsMatch(name, condition);
         }
 

@@ -34,7 +34,7 @@ namespace Supermarket.API.Controllers
 
         [HttpPost]
         [Route("CreateEmployee")]
-        public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] Employee model)
+        public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] EmployeeRequestModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
