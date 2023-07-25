@@ -6,6 +6,7 @@ using Supermarket.API.Models;
 using Supermarket.API.Service;
 using Supermarket.API.Services;
 using Supermarket.API.Services.Employee;
+using Supermarket.API.Services.EmployeeService;
 
 namespace Supermarket.API.Controllers
 {
@@ -23,7 +24,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("GetAllEmployee")]
         public async Task<ActionResult<List<Employee>>> GetAll([FromServices] DataContext context)
         {
             List<Employee> employees = await context.Employees.AsNoTracking().ToListAsync();
@@ -31,15 +32,23 @@ namespace Supermarket.API.Controllers
             return Ok(employees);
         }
 
-        //[HttpPost]
-        //[Route("")]
-        //public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] Employee model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
+        [HttpPost]
+        [Route("CreateEmployee")]
+        public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, [FromBody] Employee model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //    Employee employee = EmployeeMapper.EmployeeDTO(model);
-        //    CreateEmployee.CreateNewEmployee(context, employee);
-        //}
+            Employee employeeDTO = EmployeeMapper.EmployeeDTO(model);
+            Employee employee = await CreateEmployee.CreateNewEmployee(context, employeeDTO);
+
+            EmployeeResponse response = new EmployeeResponse()
+            {
+                Message = "Funcionário registrado com sucesso!",
+                Employee = employee
+            };
+
+            return Ok(response);
+        }
     }
 }

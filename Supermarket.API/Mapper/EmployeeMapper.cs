@@ -13,6 +13,8 @@ namespace Supermarket.API.Mapper
                 DateOfDemission = model.DateOfDemission,
                 Position = model.Position,
                 Salary = model.Salary,
+                TaxNumber = model.TaxNumber,
+                Code = Guid.NewGuid().ToString(),
             };
 
             return employee;

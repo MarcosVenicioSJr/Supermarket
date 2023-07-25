@@ -1,0 +1,27 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Supermarket.API.Data;
+using Supermarket.API.Models;
+
+namespace Supermarket.API.DAO
+{
+    public class EmployeeDao
+    {
+        private readonly DataContext _context;
+        public EmployeeDao(DataContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Employee> GetByTaxNumber(string taxNumber)
+        {
+            Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.TaxNumber == taxNumber);
+            return result;
+        }
+
+        public async Task Save(Employee employee)
+        {
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+        }
+    }
+}

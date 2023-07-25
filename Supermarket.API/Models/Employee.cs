@@ -11,11 +11,14 @@ namespace Supermarket.API.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
+
         [Required]
         [MinLength(11, ErrorMessage = "O campo TaxNumber deve conter pelo menos 11 dígitos")]
         [MaxLength(11, ErrorMessage = "O campo TaxNumber deve conter no máximo 11 dígitos")]
         public string TaxNumber { get; set; }
-        public string Code { get; set; }
+
+
+        public Guid Code { get; set; }
 
         [Required]
         public PositionEmployess Position { get; set; }
@@ -26,4 +29,5 @@ namespace Supermarket.API.Models
         public DateTime DateOfAdmission { get; set; }
         public DateTime DateOfDemission { get; set; }
     }
+
 }
