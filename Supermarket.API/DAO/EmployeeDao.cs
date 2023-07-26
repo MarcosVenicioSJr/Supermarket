@@ -18,9 +18,21 @@ namespace Supermarket.API.DAO
             return result;
         }
 
+        public async Task<Employee> GetByCode(string code)
+        {
+            Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.Code == code);
+            return result;
+        }
+
         public async Task Save(Employee employee)
         {
             _context.Employees.Add(employee);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Employee employee)
+        {
+            employee.DateOfDemission = DateTime.Now;
             await _context.SaveChangesAsync();
         }
     }

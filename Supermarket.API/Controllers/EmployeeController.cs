@@ -16,20 +16,49 @@ namespace Supermarket.API.Controllers
         [Route("{id:int}")]
         public async Task<ActionResult<Employee>> GetById([FromServices] DataContext context, int id)
         {
-            Employee? employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == id);
-            if (employee == null)
-                return NotFound(new { message = "Produto não encontrado" });
+            try
+            {
 
-            return Ok(employee);
+                Employee? employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == id);
+                if (employee == null)
+                    return NotFound(new { message = "Funcionário não encontrado." });
+
+                EmployeeResponse response = new EmployeeResponse(employee)
+                {
+                    Message = "Funcionário encontrado com sucesso!",
+                    Employee = employee
+                };
+
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("GetAllEmployee")]
         public async Task<ActionResult<List<Employee>>> GetAll([FromServices] DataContext context)
         {
-            List<Employee> employees = await context.Employees.AsNoTracking().ToListAsync();
+            try
+            {
+                List<Employee> employees = await context.Employees.AsNoTracking().ToListAsync();
 
-            return Ok(employees);
+                var result = new
+                {
+                    Message = "Lista encontrada com sucesso.",
+                    Employees = employees
+                };
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPost]
@@ -38,17 +67,39 @@ namespace Supermarket.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            Employee employeeDTO = EmployeeMapper.EmployeeDTO(model);
-            Employee employee = await CreateEmployee.CreateNewEmployee(context, employeeDTO);
-
-            EmployeeResponse response = new EmployeeResponse()
+            try
             {
-                Message = "Funcionário registrado com sucesso!",
-                Employee = employee
-            };
+                Employee employeeDTO = EmployeeMapper.EmployeeDTO(model);
+                Employee employee = await CreateEmployee.CreateNewEmployee(context, employeeDTO);
 
-            return Ok(response);
+                EmployeeResponse response = new EmployeeResponse(employee)
+                {
+                    Message = "Funcionário registrado com sucesso!",
+                    Employee = employee
+                };
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("ResignationEmployee/{code}")]
+        public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, string code)
+        {
+            try
+            {
+                Resignation.ResignationEmployee(context, code);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

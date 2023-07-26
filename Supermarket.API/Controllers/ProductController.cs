@@ -15,20 +15,33 @@ namespace Supermarket.API.Controllers
         [Route("")]
         public async Task<ActionResult<List<Product>>> GetAll([FromServices] DataContext context)
         {
-            List<Product> product = GetAllProducts.GetAll(context);
-
-            return Ok(product);
+            try
+            {
+                List<Product> product = GetAllProducts.GetAll(context);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id:int}")]
         public async Task<ActionResult<Product>> GetById([FromServices] DataContext context, int id)
         {
-            Product? product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null)
-                return NotFound(new { message = "Produto não encontrado" });
+            try
+            {
+                Product? product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+                if (product == null)
+                    return NotFound(new { message = "Produto não encontrado" });
 
-            return Ok(product);
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -60,9 +73,19 @@ namespace Supermarket.API.Controllers
         [Route("{barCode}")]
         public async Task<ActionResult<Product>> Delete([FromServices] DataContext context, string barCode)
         {
-            Product deleteProduct = await DeleteProduct.Delete(context, barCode);
+            try
+            {
+                Product deleteProduct = await DeleteProduct.Delete(context, barCode);
 
-            return Ok(new { message = $"Produto {deleteProduct.Name} foi excluído com sucesso!" });
+                return Ok(new { message = $"Produto {deleteProduct.Name} foi excluído com sucesso!" });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
+}
+}
 }

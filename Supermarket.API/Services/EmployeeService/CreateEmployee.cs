@@ -27,7 +27,8 @@ namespace Supermarket.API.Service
             {
                 await employeeDao.Save(model);
 
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.ToString());
             }
