@@ -14,13 +14,13 @@ namespace Supermarket.API.DAO
 
         public async Task<Employee> GetByTaxNumber(string taxNumber)
         {
-            Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.TaxNumber == taxNumber);
+            Employee result = await _context.Employees.FirstOrDefaultAsync(x => x.TaxNumber == taxNumber);
             return result;
         }
 
         public async Task<Employee> GetByCode(string code)
         {
-            Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.Code == code);
+            var result = await _context.Employees.FirstOrDefaultAsync(x => x.Code == code);
             return result;
         }
 
@@ -33,6 +33,7 @@ namespace Supermarket.API.DAO
         public async Task Update(Employee employee)
         {
             employee.DateOfDemission = DateTime.Now;
+            _context.Employees.Update(employee);
             await _context.SaveChangesAsync();
         }
     }

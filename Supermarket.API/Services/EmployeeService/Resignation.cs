@@ -9,15 +9,16 @@ namespace Supermarket.API.Services.EmployeeService
         {
             EmployeeDao employeeDao = new EmployeeDao(context);
 
-            Task<Models.Employee> result = employeeDao.GetByCode(code);
+            var result = await employeeDao.GetByCode(code);
             if (result == null)
                 throw new Exception("Funcionário não encontrado, tente outro código");
 
             try
             {
-               await employeeDao.Update(result.Result);
+                //await employeeDao.Update(result);
+                //return result;
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 throw new Exception(ex.ToString());
             }

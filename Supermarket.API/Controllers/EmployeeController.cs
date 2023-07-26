@@ -87,14 +87,14 @@ namespace Supermarket.API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("ResignationEmployee/{code}")]
         public async Task<ActionResult<Employee>> Post([FromServices] DataContext context, string code)
         {
             try
             {
-                Resignation.ResignationEmployee(context, code);
-
+                var result = Resignation.ResignationEmployee(context, code);
+                return Ok(result);
             }
             catch (Exception ex)
             {
