@@ -28,7 +28,7 @@ namespace Supermarket.API.Models
         [Required]
         public DateTime DateOfAdmission { get; set; }
         
-        public DateTime DateOfDemission { get; set; }
+        public DateTime? DateOfDemission { get; set; }
     }
 
 }

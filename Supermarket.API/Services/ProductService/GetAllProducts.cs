@@ -10,10 +10,19 @@ namespace Supermarket.API.Services.ProductService
     {
         public static List<Product> GetAll([FromServices] DataContext context)
         {
-            ProductDao productDao = new ProductDao(context);
-            Task<List<Product>> task = productDao.GetAllProducts();
-            List<Product> products = task.Result;
-            return products;
+            try
+            {
+                ProductDao productDao = new ProductDao(context);
+                Task<List<Product>> task = productDao.GetAllProducts();
+                List<Product> products = task.Result;
+                return products;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            
         }
     }
 }

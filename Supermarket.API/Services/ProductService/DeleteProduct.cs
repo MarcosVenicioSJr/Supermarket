@@ -24,7 +24,7 @@ namespace Supermarket.API.Services.ProductService
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw;
             }
 
             return product;

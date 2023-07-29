@@ -20,14 +20,20 @@ namespace Supermarket.API.DAO
 
         public async Task<Employee> GetByCode(string code)
         {
-            var result = await _context.Employees.FirstOrDefaultAsync(x => x.Code == code);
+            Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.Code == code);
             return result;
         }
+
 
         public async Task Save(Employee employee)
         {
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
+        }
+
+        private async void ModifyDateDemission()
+        {
+
         }
 
         public async Task Update(Employee employee)

@@ -19,8 +19,8 @@ namespace Supermarket.API.Service
             if (!ValidatorEmployee.TaxNumberValidator(model.TaxNumber))
                 throw new Exception("TaxNumber inválido, tente novamente.");
 
-            Task<Employee> employeeExists = employeeDao.GetByTaxNumber(model.TaxNumber);
-            if (employeeExists.Result != null)
+            Employee employeeExists = await employeeDao.GetByTaxNumber(model.TaxNumber);
+            if (employeeExists != null)
                 throw new Exception("Funcionário já cadastrado.");
 
             try
@@ -30,7 +30,7 @@ namespace Supermarket.API.Service
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw;
             }
 
             return model;

@@ -93,8 +93,8 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var result = Resignation.ResignationEmployee(context, code);
-                return Ok(result);
+                var result = await Resignation.ResignationEmployee(context, code);
+                return Ok(new { message = "Funcionário demitido com sucesso!" });
             }
             catch (Exception ex)
             {
