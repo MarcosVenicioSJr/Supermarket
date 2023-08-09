@@ -16,7 +16,6 @@ namespace Supermarket.API.Services.ProductService
                 Task<List<Product>> task = productDao.GetAllProducts();
                 List<Product> products = task.Result;
                 return products;
-
             }
             catch (Exception ex)
             {
