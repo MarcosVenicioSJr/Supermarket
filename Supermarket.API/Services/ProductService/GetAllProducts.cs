@@ -8,7 +8,7 @@ namespace Supermarket.API.Services.ProductService
 {
     public static class GetAllProducts
     {
-        public static List<Product> GetAll([FromServices] DataContext context)
+        public static List<Product> GetAll(DataContext context)
         {
             try
             {

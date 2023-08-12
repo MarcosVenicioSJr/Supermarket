@@ -12,6 +12,12 @@ namespace Supermarket.API.DAO
             _context = context;
         }
 
+        public async Task<List<Employee>> GetAll()
+        {
+            List<Employee> employees = await _context.Employees.AsNoTracking().ToListAsync();
+            return employees;
+        }
+
         public async Task<Employee> GetById(int id)
         {
             Employee? result = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);

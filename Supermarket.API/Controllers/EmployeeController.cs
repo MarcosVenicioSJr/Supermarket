@@ -44,7 +44,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                List<Employee> employees = await context.Employees.AsNoTracking().ToListAsync();
+                List<Employee> employees = await GetAllEmployess.GetAll(context);
 
                 var result = new
                 {

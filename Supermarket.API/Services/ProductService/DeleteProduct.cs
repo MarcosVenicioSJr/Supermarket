@@ -7,7 +7,7 @@ namespace Supermarket.API.Services.ProductService
 {
     public static class DeleteProduct
     {
-        public static async Task<Product> Delete([FromServices] DataContext context, string barCode)
+        public static async Task<Product> Delete(DataContext context, string barCode)
         {
             ProductDao productDao = new ProductDao(context);
 

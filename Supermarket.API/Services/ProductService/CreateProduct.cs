@@ -9,7 +9,7 @@ namespace Supermarket.API.Services.ProductService
 {
     public static class CreateProduct
     {
-        public static async Task<Product> CreateNewProduct([FromServices] DataContext context, Product product)
+        public static async Task<Product> CreateNewProduct(DataContext context, Product product)
         {
             ProductDao productDao = new ProductDao(context);
             bool validateBarCode = BarCodeValidator.ValidateBarCode(product.BarCode);
