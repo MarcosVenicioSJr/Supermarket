@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Data;
 using Supermarket.API.Mapper;
 using Supermarket.API.Models;
+using Supermarket.API.Services.EmployeeService;
 using Supermarket.API.Services.ProductService;
 
 namespace Supermarket.API.Controllers
@@ -11,6 +12,16 @@ namespace Supermarket.API.Controllers
     [Route("Products")]
     public class ProductController : ControllerBase
     {
+
+        private ProductResponse ProductResponse(Product product)
+        {
+            return new ProductResponse(product)
+            {
+
+                Product = product
+            };
+        }
+
         [HttpGet]
         [Route("")]
         public async Task<ActionResult<List<Product>>> GetAll([FromServices] DataContext context)
@@ -18,7 +29,13 @@ namespace Supermarket.API.Controllers
             try
             {
                 List<Product> product = GetAllProducts.GetAll(context);
-                return Ok(product);
+                var result = new
+                {
+                    Message = "Segue listas de produtos",
+                    ProductList = product
+                };
+
+                return Ok(new {result});
             }
             catch (Exception ex)
             {
@@ -55,13 +72,13 @@ namespace Supermarket.API.Controllers
                 Product product = ProductMapper.MapperDtoProduct(model);
                 Product newProduct = await CreateProduct.CreateNewProduct(context, product);
 
-                ProductResponse response = new ProductResponse()
+                ProductResponse response = new ProductResponse(model)
                 {
                     Message = "Produto criado com sucesso",
                     Product = newProduct
                 };
 
-                return Ok(response);
+                return Ok(new {response});
             }
             catch (Exception ex)
             {
@@ -77,7 +94,13 @@ namespace Supermarket.API.Controllers
             {
                 Product deleteProduct = await DeleteProduct.Delete(context, barCode);
 
-                return Ok(new { message = $"Produto {deleteProduct.Name} foi excluído com sucesso!" });
+                ProductResponse response = new ProductResponse(deleteProduct)
+                {
+                    Message = "Produto deletado com sucesso!",
+                    Product = deleteProduct
+                };
+                
+                return Ok(new { response });
 
             }
             catch (Exception ex)

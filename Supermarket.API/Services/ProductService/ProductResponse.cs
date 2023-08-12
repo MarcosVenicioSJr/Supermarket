@@ -6,5 +6,11 @@ namespace Supermarket.API.Services.ProductService
     {
         public string Message { get; set; }
         public Product Product { get; set; }
+        public List<Product> Products { get; set; }
+
+        public ProductResponse(Product product)
+        {
+            this.Product = product;
+        }
     }
 }
