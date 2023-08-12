@@ -2,6 +2,8 @@
 {
     public class EmployeeResponse
     {
+        public EmployeeResponse() { }
+
         public string Message { get; set; }
         public Models.Employee Employee { get; set; }
 

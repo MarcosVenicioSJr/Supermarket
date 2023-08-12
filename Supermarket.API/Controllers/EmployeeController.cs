@@ -4,33 +4,33 @@ using Supermarket.API.Data;
 using Supermarket.API.Mapper;
 using Supermarket.API.Models;
 using Supermarket.API.Service;
-using Supermarket.API.Services;
-using Supermarket.API.Services.Employee;
 using Supermarket.API.Services.EmployeeService;
 
 namespace Supermarket.API.Controllers
 {
     public class EmployeeController : ControllerBase
     {
+        private EmployeeResponse CreateEmployeeResponse(Employee employee, string message)
+        {
+            return new EmployeeResponse(employee)
+            {
+                Message = message,
+                Employee = employee
+            };
+        }
+
         [HttpGet]
         [Route("{id:int}")]
         public async Task<ActionResult<Employee>> GetById([FromServices] DataContext context, int id)
         {
             try
             {
+                Employee employee = await GetEmployeeById.GetByIdAsync(context, id);
 
-                Employee? employee = await context.Employees.FirstOrDefaultAsync(x => x.Id == id);
                 if (employee == null)
                     return NotFound(new { message = "Funcionário não encontrado." });
 
-                EmployeeResponse response = new EmployeeResponse(employee)
-                {
-                    Message = "Funcionário encontrado com sucesso!",
-                    Employee = employee
-                };
-
-                return Ok(response);
-
+                return Ok(CreateEmployeeResponse(employee, "Funcionário encontrado com sucesso!"));
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace Supermarket.API.Controllers
 
                 var result = new
                 {
-                    Message = "Lista encontrada com sucesso.",
+                    Message = "Segue lista de funcionários.",
                     Employees = employees
                 };
 
@@ -58,7 +58,6 @@ namespace Supermarket.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpPost]
@@ -67,24 +66,18 @@ namespace Supermarket.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
             try
             {
                 Employee employeeDTO = EmployeeMapper.EmployeeDTO(model);
                 Employee employee = await CreateEmployee.CreateNewEmployee(context, employeeDTO);
 
-                EmployeeResponse response = new EmployeeResponse(employee)
-                {
-                    Message = "Funcionário registrado com sucesso!",
-                    Employee = employee
-                };
-
-                return Ok(response);
+                return Ok(CreateEmployeeResponse(employee, "Funcionário registrado com sucesso!"));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpPut]
@@ -93,8 +86,12 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var result = await Resignation.ResignationEmployee(context, code);
-                return Ok(new { message = "Funcionário demitido com sucesso!" });
+                string result = await Resignation.ResignationEmployee(context, code);
+
+                return Ok(new EmployeeResponse()
+                {
+                    Message = $"Funcionário com o código {result} foi demitido com sucesso.",
+                });
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿using Supermarket.API.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Supermarket.API.Models
+namespace Supermarket.API.Services.EmployeeService
 {
     public class EmployeeRequestModel
     {
