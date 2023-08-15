@@ -49,9 +49,13 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                Product? product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
-                if (product == null)
-                    return NotFound(new { message = "Produto não encontrado" });
+                Product? product = await GetByIdAsync.GetByAsyncId(context, id);
+
+                ProductResponse ProductResponse = new ProductResponse(product)
+                {
+                    Message = "Produto encontrado com sucesso.",
+                    Product = product
+                };
 
                 return Ok(product);
             }

@@ -16,9 +16,16 @@ namespace Supermarket.API.DAO
 
         public async Task<List<Product>> GetAllProducts()
         {
-            List<Product> produto = await _context.Products.AsNoTracking().ToListAsync();
-            return produto;
+            List<Product> product = await _context.Products.AsNoTracking().ToListAsync();
+            return product;
         }
+
+        public async Task<Product> GetById(int id)
+        {
+            Product? product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return product;
+        }
+
         public async Task<bool> ExistsProduct(string barCode)
         {
             Product? product = await _context.Products.FirstOrDefaultAsync(x => x.BarCode == barCode);
