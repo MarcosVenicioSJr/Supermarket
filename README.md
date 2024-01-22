@@ -8,7 +8,6 @@ Essas instruções permitirão que você obtenha uma cópia do projeto em opera�
 ## Índice
 
 - [Instalação](#instalação)
-- [Configuração](#configuração)
 - [Uso](#uso)
 - [Endpoints](#endpoints)
 - [Contribuição](#contribuição)
